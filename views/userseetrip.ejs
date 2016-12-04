@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RunBook</title>
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+
+<style>
+@font-face {
+	font-family: 'Comfortaa-Regular';
+	src: url('../fonts/Comfortaa/Comfortaa-Regular.eot');
+	src: url('../fonts/Comfortaa/Comfortaa-Regular.woff') format('woff'),
+		url('../fonts/Comfortaa/Comfortaa-Regular.ttf') format('truetype'),
+		url('../fonts/Comfortaa/Comfortaa-Regular.svg') format('svg');
+}
+
+body {
+	background: url(../images/bg-header.gif) repeat-x top center;
+}
+
+body #header {
+	width: 100%;
+	height: 130px;
+	overflow: hidden;
+}
+
+body #header #logo {
+	opacity: 0.7;
+	margin: 5px 0 0 30px;
+	padding: 0 0 0;
+	font-size: 90px;
+	color: white;
+	float: left;
+	text-align: center;
+	border-radius: 10px;
+	text-align: center;
+	float: left;
+	padding: 0 0 0;
+}
+
+body #header .clicktag {
+	opacity: 0.7;
+	background-color: white;
+	margin: 80px 5px 0;
+	width: 80px;
+	height: 25px;
+	font-size: 20px;
+	color: #10edf0;
+	float: right;
+	text-align: center;
+	border-radius: 5px;
+	text-align: center;
+}
+
+body #header p {
+	opacity: 0.7;
+	margin: 80px 5px 0;
+	width: auto;
+	height: 25px;
+	font-size: 20px;
+	color: white;
+	float: right;
+	text-align: center;
+	text-align: center;
+	padding: 0 5px;
+}
+
+body .container {
+	width: 1200px;
+	margin: auto;
+	background-color: #eeeeee;
+}
+
+body .container .left {
+	width: 246px;
+	margin: 20px 0;
+	float: left;
+	height: 600px;
+	background-color: #eeeeee;
+	border: solid;
+	border-width: 2px;
+	border-radius: 5px;
+}
+
+body .container .left p {
+	opacity: 0.7;
+	margin: 0 0;
+	width: 250;
+	height: 50px;
+	font-size: 40px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+body .container .left button {
+	margin: 10px 25px 0;
+	width: 200px;
+	height: 50px;
+	font-size: 25px;
+	background-color: #cccccc;
+	color: white;
+	text-align: center;
+	border-radius: 5px;
+	width: 200px;
+}
+
+body .container .right {
+	float: right;
+	width: 950px;
+}
+
+body .container #rightcontainer .tripitem {
+	margin: 20px auto 0;
+	width: 900px;
+	border: solid;
+	height: 200px;
+}
+
+body .container #rightcontainer .tripitem {
+	margin: 20px auto 0;
+	width: 900px;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	height: 200px;
+}
+
+body .container #rightcontainer .tripitem .paragraph {
+	margin: 10px 0 0 10px;
+	width: 350px;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	height: 175px;
+	background-color: white;
+	float: left;
+}
+
+body .container #rightcontainer .tripitem .paragraph .title {
+	text-transform: capitalize;
+	margin: 5px;
+	width: 336px;
+	border-bottom-style: solid;
+	border-width: 2px;
+	border-color: grey;
+	height: 25px;
+	color: black;
+	font-size: 20px;
+	text-align: center;
+	border-width: 2px;
+}
+
+body .container #rightcontainer .tripitem .paragraph .context {
+	font-family: 'Comfortaa-Regular';
+	margin: 5px;
+	width: 336px;
+	height: 125px;
+	font-size: 15px;
+}
+
+body .container #rightcontainer .tripitem .image {
+	margin: 10px 0 0 10px;
+	width: 220px;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	height: 175px;
+	background-color: white;
+	float: left;
+}
+
+body .container #rightcontainer .tripitem .image .imageview {
+	height: 175px;
+	width: 220px;
+}
+
+body .container #rightcontainer .tripitem .map {
+	margin: 10px 0 0 10px;
+	width: 277px;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	height: 175px;
+	background-color: white;
+	float: left;
+}
+</style>
+</head>
+<body>
+
+	<div id="header">
+		<div id="logo">RunBook</div>
+		<div class="clicktag" id="accounttag">Account</div>
+		<div class="clicktag" id="abouttag">About</div>
+		<div class="clicktag" id="hometag">Home</div>
+		<p id="yourname"></p>
+	</div>
+	<div class="container">
+		<div class="left">
+			<p id="asguidetag">As Guide</p>
+			<button id="createtripbutton">Create Trip</button>
+			<button id="seetripbutton">See your Trip</button>
+			<button id="seereviewbutton">See your Review</button>
+		</div>
+		<div class="right" id="rightcontainer">
+			<div class="tripitem">
+				<div class="paragraph">
+					<div class="title"></div>
+					<div class="context"></div>
+				</div>
+				<div class="image">
+					<img class="imageview" src="" />
+				</div>
+				<div id="map"></div>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+<script>
+<!--  get session  -->
+
+	var email;
+	var times;
+	$.ajaxSetup({  
+	    async : false  
+	}); 	
+	$.ajax({
+		url : '/getsession',
+		async : false,
+		type : "get",
+		dataType : "json",
+		success : function(res) {
+
+		email=res.session.email;
+		document.getElementById('yourname').innerHTML = "Welcome "
+				+ res.session.firstname + " " + res.session.lastname;
+		
+		$.post("/gettripsbyguideemail",{email:email},function(res){
+			
+			trips=res.trips;
+			
+		
+			var innerContext="";
+			for(i=0;i<res.trips.length;i++){		
+				innerContext=innerContext+ "<div class='tripitem'>";
+				
+				
+				innerContext=innerContext+ "<div class='paragraph'>";
+				innerContext=innerContext+ "<div class='title'>";
+				innerContext=innerContext+ res.trips[i].trip.title ;
+				innerContext=innerContext+ "</div>";
+				innerContext=innerContext+ "<div class='context'>";
+				innerContext=innerContext+ res.trips[i].trip.context ;
+				innerContext=innerContext+ "</div>";
+				innerContext=innerContext+ "</div>";
+				
+				
+				$.ajax({
+					url : '/getimagebyid',
+					async : false,
+					type : "post",
+					data : {imageid:res.trips[i].trip.imageid},
+					dataType : "json",
+					success : function(res) {
+						imagestring = 'data:image/png;base64,'+ res.image;			
+					}
+				});
+				innerContext=innerContext+ "<div class='image'>";
+				innerContext=innerContext+ "<img class='imageview' src="
+				innerContext=innerContext+ imagestring
+				innerContext=innerContext+ " />";
+				innerContext=innerContext+ "</div>";
+				
+				innerContext=innerContext+ "<div class='map' id=\"map";   
+				innerContext=innerContext+ i
+				innerContext=innerContext+ "\">";
+				
+				innerContext=innerContext+ "</div>";
+				innerContext=innerContext+ "</div>";
+				
+				
+				
+				
+			}
+			
+			document.getElementById('rightcontainer').innerHTML=innerContext;
+		});
+		}
+	});
+	
+
+	function initMap() {
+		for(i=0;i<trips.length;i++){
+			var thismap ="map"+i;
+			var map =new Array(trips.length);
+			var marker =new Array(trips.length);
+			var thislocation=JSON.parse(trips[i].trip.location);
+			map[i] = new google.maps.Map(document.getElementById(thismap), {
+				zoom : 11,
+				center :thislocation.geometry.location
+			});
+			marker[i] = new google.maps.Marker({
+				map : map[i],
+				position : thislocation.geometry.location
+			});
+		}
+	}
+<!-- get trips-->
+
+
+
+
+<!--  make index button link  -->
+	document.getElementById('logo').addEventListener('click', function() {
+		window.location.assign('/');
+	});
+	document.getElementById('hometag').addEventListener('click', function() {
+		window.location.assign('/');
+	});
+	document.getElementById('accounttag').addEventListener('click', function() {
+		window.location.assign('/userhome');
+	});
+	document.getElementById('abouttag').addEventListener('click', function() {
+		window.location.assign('/about');
+	});
+	document.getElementById('createtripbutton').addEventListener('click', function() {
+		window.location.assign('/createtrip');
+	});
+
+
+</script>
+
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyMXaBqJOWHtGJSATEH_XyV9LBqYV-rYE&callback=initMap"
+	async defer>
+		
+	</script>
+</html>

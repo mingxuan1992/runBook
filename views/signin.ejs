@@ -1,0 +1,203 @@
+<html>
+<head>
+<title>RunBook-SignIn</title>
+
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<style>
+body {
+	background: url(../images/bg-header.gif) repeat-x top center;
+}
+
+body #header {
+	width: 100%;
+	height: 130px;
+	overflow: hidden;
+}
+
+body #header #logo {
+	opacity: 0.7;
+	margin: 5px 0 0 30px;
+	padding: 0 0 0;
+	font-size: 90px;
+	color: white;
+	float: left;
+	text-align: center;
+	border-radius: 10px;
+	text-align: center;
+	float: left;
+	padding: 0 0 0;
+}
+
+body #header .clicktag {
+	opacity: 0.7;
+	background-color: white;
+	margin: 80px 5px 0;
+	width: 80px;
+	height: 25px;
+	font-size: 20px;
+	color: #10edf0;
+	float: right;
+	text-align: center;
+	border-radius: 5px;
+	text-align: center;
+}
+
+body #frontline {
+	background: url(/images/frontimage.jpg) 0 0 no-repeat;
+	width: 1100px;
+	height: 500;
+	margin: 0 auto;
+}
+
+body #frontline #takespace {
+	height: 40px;
+	border-style: solid;
+	border-width: 0px;
+	padding: 0;
+}
+
+body #frontline #inputcard {
+	background-color: white;
+	opacity: 0.9;
+	margin: 50px auto 0;
+	width: 700px;
+	height: 250px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #658e95;
+	padding: 0;
+}
+
+body #frontline #inputcard p {
+	margin: 30px 40px 0 40px;
+	background-color: #658e95;
+	border-radius: 5px;
+	padding: 0 10px;
+	color: white;
+	height: 40px;
+	font-size: 30px;
+	text-align: center;
+	height: 40px;
+	width: auto;
+}
+
+body #frontline #inputcard #showname {
+	margin: 10px 0 0 40px;
+	background-color: #658e95;
+	border-radius: 5px;
+	padding: 0 10px;
+	color: white;
+	height: 40px;
+	font-size: 30px;
+	float: left;
+	height: 40px;
+	width: 130px;
+}
+
+body #frontline #inputcard input {
+	float: left;
+	margin: 10px 40px 0 5px;
+	width: 465px;
+	height: 40px;
+	font-size: 30px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #658e95;
+	border-radius: 5px;
+	padding: 0 10px;
+}
+
+body #frontline #inputcard button {
+	float: right;
+	margin: 10px 40px 0 0;
+	width: 120px;
+	height: 40px;
+	font-size: 30px;
+	color: white;
+	background-color: #658e95;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #658e95;
+	border-radius: 5px;
+	border-style: solid;
+	background-color: #658e95;
+	border-style: solid;
+}
+</style>
+
+</head>
+<body>
+	<div id="header">
+		<div id="logo">RunBook</div>
+		<div class="clicktag" id="signuptag">SignUp</div>
+		<div class="clicktag" id="abouttag">About</div>
+		<div class="clicktag" id="hometag">Home</div>
+
+	</div>
+	<div id="frontline">
+
+		<div id="takespace"></div>
+		<div id="inputcard">
+			<p>Welcome sign in!</p>
+			<p id="showname">Email:</p>
+			<input type="text" id="email">
+			<p id="showname">Password:</p>
+			<input type="text" id="password">
+
+			<button id="submit">Submit</button>
+		</div>
+
+	</div>
+
+
+
+
+</body>
+<script>
+	document.getElementById('logo').addEventListener('click', function() {
+		window.location.assign('/');
+	});
+	document.getElementById('hometag').addEventListener('click', function() {
+		window.location.assign('/');
+	});
+	document.getElementById('signuptag').addEventListener('click', function() {
+		window.location.assign('/signup');
+	});
+	document.getElementById('abouttag').addEventListener('click', function() {
+		window.location.assign('/about');
+	});
+
+	document.getElementById('submit').addEventListener(
+			'click',
+			function() {
+
+				if (document.getElementById('email').value == ""
+						|| document.getElementById('password').value == "") {
+					alert("wrong input");
+				} else {
+
+					$.post("/signin", {
+
+						email : document.getElementById('email').value,
+						password : document.getElementById('password').value
+
+					}, function(res) {
+
+						if (res.code == 200) {
+							window.location.assign('/userhome');
+						} else {
+							if (res.code == 301) {
+								alert("wrong password or email,try again!");
+
+							} else {
+								alert("unknown error!");
+
+							}
+						}
+
+					});
+				}
+			});
+</script>
+</html>

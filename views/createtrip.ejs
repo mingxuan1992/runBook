@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RunBook</title>
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyMXaBqJOWHtGJSATEH_XyV9LBqYV-rYE&callback=initMap"
+	async defer>
+		
+	</script>
+
+<style>
+body {
+	background: url(../images/bg-header.gif) repeat-x top center;
+	height: 1300px;
+}
+
+body #header {
+	width: 100%;
+	height: 130px;
+	overflow: hidden;
+}
+
+body #header #logo {
+	opacity: 0.7;
+	margin: 5px 0 0 30px;
+	padding: 0 0 0;
+	font-size: 90px;
+	color: white;
+	float: left;
+	text-align: center;
+	border-radius: 10px;
+	text-align: center;
+	float: left;
+	padding: 0 0 0;
+}
+
+body #header .clicktag {
+	opacity: 0.7;
+	background-color: white;
+	margin: 80px 5px 0;
+	width: 80px;
+	height: 25px;
+	font-size: 20px;
+	color: #10edf0;
+	float: right;
+	text-align: center;
+	border-radius: 5px;
+	text-align: center;
+}
+
+body #header p {
+	opacity: 0.7;
+	margin: 80px 5px 0;
+	width: auto;
+	height: 25px;
+	font-size: 20px;
+	color: white;
+	float: right;
+	text-align: center;
+	text-align: center;
+	padding: 0 5px;
+}
+
+body .container {
+	width: 1200px;
+	margin: auto;
+	background-color: #eeeeee;
+}
+
+body .container .left {
+	width: 246px;
+	margin: 20px 0;
+	float: left;
+	height: 600px;
+	background-color: #eeeeee;
+	border: solid;
+	border-width: 2px;
+	border-radius: 5px;
+}
+
+body .container .left p {
+	opacity: 0.7;
+	margin: 0 0;
+	width: 250;
+	height: 50px;
+	font-size: 40px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+body .container .left button {
+	margin: 10px 25px 0;
+	width: 200px;
+	height: 50px;
+	font-size: 25px;
+	background-color: #cccccc;
+	color: white;
+	text-align: center;
+	border-radius: 5px;
+	width: 200px;
+}
+
+body .container .right {
+	float: right;
+	width: 950px;
+}
+
+body .container .right .mapcontainer {
+	margin: 20px 20px 0 0;
+	float: right;
+	border: solid;
+	border-color: darkgreen;
+	border-width: 2px;
+	border-radius: 5px;
+	height: 220px;
+	width: 400px;
+	padding: 10px;
+}
+
+body .container .right .mapcontainer #floating-panel {
+	background-color: #dddddd;
+	padding: 5px;
+	text-align: center;
+	font-family: 'Roboto', 'sans-serif';
+}
+
+body .container .right .mapcontainer #floating-panel #address {
+	width: 250px;
+	font-size: 15px;
+}
+
+body .container .right .mapcontainer #floating-panel #setaddress {
+	height: 22px;
+	width: 100px;
+	font-size: 15px;
+}
+
+body .container .right .mapcontainer #map {
+	height: 180px;
+}
+
+body .container .right .tripcontextcontainer {
+	height: 600px;
+	width: 465px;
+	float: left;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	margin: 20px auto 0 20px;
+}
+
+body .container .right .tripcontextcontainer .textplace {
+	margin: 10px;
+	height: auto;
+	width: auto;
+	background-color: #dddddd;
+}
+
+body .container .right .tripcontextcontainer #triptitle {
+	height: 40px;
+	width: 441px;
+	padding: 0;
+	background-color: #bbbbbb;
+	padding: 0;
+	line-height: 30px;
+	font-size: 25px;
+}
+
+body .container .right .tripcontextcontainer textarea {
+	height: 530px;
+	width: 443px;
+	padding: 0;
+	background-color: #f5f5f5;
+	padding: 0;
+	line-height: 30px;
+	font-size: 25px;
+}
+
+body .container .right #imagecontainer {
+	height: 316px;
+	width: 400px;
+	padding: 10px;
+	float: right;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	margin: 20px 20px 0 0;
+	float: right;
+}
+
+body .container .right #imagecontainer .imageborder {
+	height: 290px;
+	width: 400px;
+	padding: 0px;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	text-align: center;
+}
+
+body .container .right #imagecontainer .imageborder img {
+	max-height: 290px;
+	max-width: 400px;
+}
+
+body .container .right #imagecontainer #changetosearchimage {
+	float: right;
+}
+
+body .container .right #imagecontainerforsearch {
+	height: 316px;
+	width: 400px;
+	padding: 10px;
+	float: right;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	margin: 20px 20px 0 0;
+	float: right;
+	display: none;
+}
+
+body .container .right #imagecontainerforsearch #changetouploadimage {
+	float: right;
+}
+
+body .container .right #imagecontainerforsearch .imageborder {
+	height: 290px;
+	width: 400px;
+	padding: 0px;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	text-align: center;
+}
+
+body .container .right #imagecontainerforsearch .imageborder img {
+	max-height: 290px;
+	max-width: 400px;
+}
+
+body .container .right #googleimagesearchcontainer {
+	float: right;
+	margin: 20px 20px 0 0;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	color: black;
+	height: 415px;
+	width: 906px;
+	display: none;
+}
+
+body .container .right #googleimagesearchcontainer #images {
+	
+}
+
+body .container .right #googleimagesearchcontainer #searchbar {
+	width: 800px;
+	height: 50px;
+	margin: 10px auto 0;
+	background-color: #eeeeee;
+}
+
+body .container .right #googleimagesearchcontainer #searchbar #searchtitle
+	{
+	margin: 10px 0 0 20px;
+	float: left;
+	font-size: 20px;
+	height: 25px;
+}
+
+body .container .right #googleimagesearchcontainer #searchbar input {
+	margin: 10px 0 0 20px;
+	float: left;
+	font-size: 20px;
+	height: 25px;
+}
+
+body .container .right #googleimagesearchcontainer #searchbar button {
+	margin: 10px auto 0 20px;
+	float: left;
+	font-size: 20px;
+	height: 25px;
+}
+
+body .container .right #googleimagesearchcontainer #images .imageborder
+	{
+	margin: 10px 0 0 20px;
+	border: solid;
+	border-color: darkgreen;
+	border-radius: 5px;
+	border-width: 2px;
+	height: 150px;
+	width: 150px;
+	padding: 2px;
+	float: left;
+}
+
+body .container .right #googleimagesearchcontainer #images .imageborder .imageview
+	{
+	max-height: 150px;
+	max-width: 150px;
+	width: auto;
+	height: auto;
+}
+
+body .container .right #buttoncontainer button {
+	float: right;
+	margin: 20px 20px 0 0;
+	border: solid;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	font-size: 40px;
+	color: white;
+	height: 60px;
+	width: 910px;
+}
+</style>
+</head>
+<body>
+
+	<div id="header">
+		<div id="logo">RunBook</div>
+		<div class="clicktag" id="accounttag">Account</div>
+		<div class="clicktag" id="abouttag">About</div>
+		<div class="clicktag" id="hometag">Home</div>
+
+		<p id="yourname"></p>
+	</div>
+	<div class="container">
+		<div class="left">
+			<p id="asguidetag">As Guide</p>
+			<button id="createtripbutton">Create Trip</button>
+			<button id="seetripbutton">See your Trip</button>
+			<button id="seereviewbutton">See your Review</button>
+		</div>
+		<div class="right">
+			<div class="mapcontainer">
+				<div id="floating-panel">
+					<input id="address" value="San Jose, CA">
+					<button id="setaddress">SetAddress</button>
+				</div>
+				<div id="map"></div>
+			</div>
+			<div class="tripcontextcontainer">
+				<div class="textplace">
+					<input id="triptitle">
+					<textarea id="tripcontext"></textarea>
+				</div>
+			</div>
+			<div id="imagecontainer">
+
+				<input type="file" id="myimageupload">
+				<button id="submitimage">submit</button>
+				<button id="changetosearchimage">search</button>
+				<table class="imageborder">
+					<tr>
+						<td><img id="ItemPreview" src="" /></td>
+					</tr>
+				</table>
+			</div>
+			<div id="imagecontainerforsearch">
+				<button id="changetouploadimage">upload</button>
+				<table class="imageborder">
+					<tr>
+						<td><img id="ItemPreviewwhensearch" src="" /></td>
+					</tr>
+				</table>
+			</div>
+			<div id="googleimagesearchcontainer">
+				<div id="searchbar">
+					<p id="searchtitle">Search Image from Web</p>
+					<input id="inputtext">
+					<button id="dosearch">Search</button>
+				</div>
+				<div id="images">
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+					<div class="imageborder">
+						<img class="imageview" src="" />
+					</div>
+				</div>
+
+
+			</div>
+			<div id="buttoncontainer">
+				<button id="submittrip">Create Trip</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+
+$.ajaxSetup({  
+    async : false  
+}); 
+<!--  get session  -->
+var havemarker=false;
+var haveimage =false;
+var haveimage_search=false;
+var mylocation;
+var mytripimageid;
+var mytripimageid_search;
+var email;
+var imageway="upload";
+
+var imagechooseid;
+
+	$.get("/getsession", function(res) {
+		email=res.session.email;
+		document.getElementById('yourname').innerHTML = "Welcome "
+				+ res.session.firstname + " " + res.session.lastname;
+	});
+<!--  make index button link  -->
+	document.getElementById('logo').addEventListener('click', function() {
+		window.location.assign('/');
+	});
+	document.getElementById('hometag').addEventListener('click', function() {
+		window.location.assign('/');
+	});
+	document.getElementById('accounttag').addEventListener('click', function() {
+		window.location.assign('/userhome');
+	});
+	document.getElementById('abouttag').addEventListener('click', function() {
+		window.location.assign('/about');
+	});
+	document.getElementById('createtripbutton').addEventListener('click', function() {
+		window.location.assign('/createtrip');
+	});
+	document.getElementById('seetripbutton').addEventListener('click', function() {
+		window.location.assign('/userseetrip');
+	});
+	document.getElementById('changetosearchimage').addEventListener('click', function() {
+		document.getElementById("imagecontainer").style.display = "none";
+		document.getElementById("imagecontainerforsearch").style.display = "inline";
+		document.getElementById("googleimagesearchcontainer").style.display = "inline";
+		imageway="search";
+
+	});
+	document.getElementById('changetouploadimage').addEventListener('click', function() {
+		document.getElementById("imagecontainer").style.display = "inline";
+		document.getElementById("imagecontainerforsearch").style.display = "none";
+		document.getElementById("googleimagesearchcontainer").style.display = "none";
+		imageway="upload";
+
+	});
+	
+	
+<!--search image-->
+
+document.getElementById('dosearch').addEventListener('click', function() {
+	var googleimagesearchapi="https://www.googleapis.com/customsearch/v1?q=";				
+	googleimagesearchapi=googleimagesearchapi+ document.getElementById('inputtext').value;		
+	googleimagesearchapi=googleimagesearchapi+	"&cx=008407926224458770817%3Ag0lqu9-rfa4&searchType=image&key=AIzaSyCyMXaBqJOWHtGJSATEH_XyV9LBqYV-rYE";
+	$.get( googleimagesearchapi,{},function(res){
+		
+		var innerContext="";
+		for(i=0;i<res.items.length;i++){
+			
+			innerContext=innerContext+"<div class=\"imageborder\">";			
+			innerContext=innerContext+ "<img class=\"imageview\" id=\"image";  
+			innerContext=innerContext+i;
+			innerContext=innerContext+"\" src=\"";
+			innerContext=innerContext+ res.items[i].link;
+			innerContext=innerContext+ "\" />";		
+			innerContext=innerContext+"</div>";
+		}
+		document.getElementById('images').innerHTML=innerContext;
+		alert(innerContext);
+		var imagechooseid="";
+		
+		for(i=0;i<res.items.length;i++){			
+			imagechooseid="image";
+			imagechooseid=imagechooseid+i;
+			addsearchimagesclickbuttonevent(imagechooseid);
+						
+		}
+	});
+});
+
+function addsearchimagesclickbuttonevent(imagechooseid){
+	document.getElementById(imagechooseid).addEventListener('click', function() {	
+		
+			$.post("/uploadimagewhensearch",{"imageurl": document.getElementById(imagechooseid).src},function(res) {		
+				mytripimageid_search =res.imageid;
+				imageway="search";
+				haveimage_search=true;
+				$.post('/getimagebyid',{imageid:mytripimageid_search}, function(res) {
+					document.getElementById("ItemPreviewwhensearch").src = 'data:image/png;base64,'
+							+ res.image;
+					document.getElementById("googleimagesearchcontainer").style.display = "none";
+				});
+			});						
+	});
+}
+
+<!-- init map -->
+	function initMap() {
+		var map = new google.maps.Map(document.getElementById('map'), {
+			zoom : 8,
+			center : {
+				lat : -34.397,
+				lng : 150.644
+			}
+		});
+		var geocoder = new google.maps.Geocoder();
+
+		document.getElementById('setaddress').addEventListener('click',
+				function() {
+					geocodeAddress(geocoder, map);
+				});
+	}
+	function geocodeAddress(geocoder, resultsMap) {
+		var address = document.getElementById('address').value;
+
+		geocoder.geocode(
+						{
+							'address' : address
+						},
+						function(results, status) {
+							if (status === google.maps.GeocoderStatus.OK) {
+								resultsMap
+										.setCenter(results[0].geometry.location);
+								mylocation=JSON.stringify(results[0]);
+								havemarker=true;
+								var marker = new google.maps.Marker({
+									map : resultsMap,
+									position : results[0].geometry.location
+								});
+							} else {
+								alert('Geocode was not successful for the following reason: '
+										+ status);
+							}
+						});
+	}
+<!-- submit image here -->
+	document.getElementById('submitimage').addEventListener('click', function() {
+	var data = new FormData();
+	if(document.getElementById("myimageupload").files[0]!=null){
+	data.append('myimage', document.getElementById("myimageupload").files[0]);
+	// append other variables to data if you want: data.append('field_name_x', field_value_x);
+	$.ajax({
+		type : 'POST',
+		processData : false, // important
+		contentType : false, // important
+		data : data,
+		url : '/uploadimage',
+		dataType : 'json',
+		success : function(res) {		
+		mytripimageid =res.imageid;
+		haveimage=true;
+		imageway="upload";
+		$.post('/getimagebyid',{imageid:mytripimageid}, function(res) {
+			document.getElementById("ItemPreview").src = 'data:image/png;base64,'
+					+ res.image;
+			
+		});
+		
+		
+		}
+
+	});
+	}else{alert("please select a image!");}
+});
+	<!-- submit trip-->
+	
+	document.getElementById("submittrip").addEventListener('click', function() {
+		if(imageway=="upload"){
+			if(havemarker&&haveimage&&document.getElementById("triptitle").value!=""&&document.getElementById("tripcontext").value!=""){
+				alert("ok");
+				$.post('/guidecreatetrip',{email:email,imageid:mytripimageid,location:mylocation,title:document.getElementById("triptitle").value,context:document.getElementById("tripcontext").value
+					}, function(res) {
+			
+				});		
+			}else{
+				alert("need more details!");
+			}	
+		}
+		if(imageway=="search"){
+			if(havemarker&&haveimage_search&&document.getElementById("triptitle").value!=""&&document.getElementById("tripcontext").value!=""){
+				alert("ok");
+				$.post('/guidecreatetrip',{email:email,imageid:mytripimageid_search,location:mylocation,title:document.getElementById("triptitle").value,context:document.getElementById("tripcontext").value
+					}, function(res) {
+				
+				});		
+			}else{
+				alert("need more details!");
+			}	
+		}
+		
+	});
+
+	
+	
+
+</script>
+</html>
