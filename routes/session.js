@@ -3,7 +3,8 @@ var ejs = require("ejs");
 exports.getsession = function(req, res) {
 	console.log("get session " + JSON.stringify(req.session.user));
 	res.send({
-		session : req.session.user
+		session : req.session.user,
+		trip:req.session.thistripid
 	});
 };
 

@@ -107,7 +107,7 @@ body .container .left button {
 }
 
 body .container .right {
-	float: right;
+	margin :0 auto;
 	width: 950px;
 }
 
@@ -196,20 +196,13 @@ body .container #rightcontainer .tripitem .map {
 
 	<div id="header">
 		<div id="logo">RunBook</div>
-		<div class="clicktag" id="accounttag">Account</div>
+
 		<div class="clicktag" id="abouttag">About</div>
 		<div class="clicktag" id="hometag">Home</div>
 		<p id="yourname"></p>
 	</div>
 	<div class="container">
-		<div class="left">
-			<p id="asguidetag">As Guide</p>
-			<button id="createtripbutton">Create Trip</button>
-			<button id="seetripbutton">See Your Trip</button>
 		
-			<button id="seeyourlikebutton">See your Like</button>
-			<button id="seereviewbutton">See your Review</button>
-		</div>
 		<div class="right" id="rightcontainer">
 			<div class="tripitem">
 				<div class="paragraph">
@@ -229,26 +222,13 @@ body .container #rightcontainer .tripitem .map {
 <script>
 <!--  get session  -->
 
-	var email;
-	var times;
-	var role;
+	
+
+
 	$.ajaxSetup({  
 	    async : false  
 	}); 	
-	$.ajax({
-		url : '/getsession',
-		async : false,
-		type : "get",
-		dataType : "json",
-		success : function(res) {
-
-		email=res.session.email;
-		role=res.session.role;
-		document.getElementById('yourname').innerHTML = "Welcome "
-				+ res.session.firstname + " " + res.session.lastname;
-		loadtrips("/gettripsbyguideemail",{email:email});
-		}
-	});
+	loadtrips("/getalltrips",{});
 	
 	function addtripitemclickevent(itemtripid,tripid){	
 
@@ -292,37 +272,13 @@ body .container #rightcontainer .tripitem .map {
 	document.getElementById('hometag').addEventListener('click', function() {
 		window.location.assign('/');
 	});
-	document.getElementById('accounttag').addEventListener('click', function() {
-		window.location.assign('/userhome');
-	});
+
 	document.getElementById('abouttag').addEventListener('click', function() {
 		window.location.assign('/about');
 	});
-	document.getElementById('createtripbutton').addEventListener('click', function() {
-		window.location.assign('/createtrip');
-	});
-	
-	document.getElementById('seetripbutton').addEventListener('click', function() {
-		loadtrips("/getalltrips",{email:email});
-		initMap();
-	});
-	document.getElementById('seeyourlikebutton').addEventListener('click', function() {
-		loadtrips("/getalllikesbyuseremail",{email:email});
-		initMap();
-	});
 
 
-<!-- change when user  -->
-if (role=="user"){
-	document.getElementById('createtripbutton').style.display="none";
-	document.getElementById('asguidetag').innerHTML="As User";
-	document.getElementById('seetripbutton').innerHTML="See all Trips";
-	loadtrips("/getalltrips",{email:email});
-}
 
-if(role=="guide"){
-	document.getElementById('seeyourlikebutton').style.display="none";
-}
 
 
 function loadtrips(url,queryjson){

@@ -7,6 +7,14 @@
 
 
 <style>
+@font-face {
+	font-family: 'Comfortaa-Regular';
+	src: url('../fonts/Comfortaa/Comfortaa-Regular.eot');
+	src: url('../fonts/Comfortaa/Comfortaa-Regular.woff') format('woff'),
+		url('../fonts/Comfortaa/Comfortaa-Regular.ttf') format('truetype'),
+		url('../fonts/Comfortaa/Comfortaa-Regular.svg') format('svg');
+}
+
 body {
 	background: url(../images/bg-header.gif) repeat-x top center;
 }
@@ -61,8 +69,6 @@ body #header p {
 body .container {
 	width: 1200px;
 	margin: auto;
-	background-color: #eeeeee;
-	
 }
 
 body .container .left {
@@ -71,9 +77,9 @@ body .container .left {
 	float: left;
 	height: 600px;
 	background-color: #eeeeee;
-	border:solid;
+	border: solid;
 	border-width: 2px;
-	border-radius:5px;
+	border-radius: 5px;
 }
 
 body .container .left p {
@@ -98,19 +104,21 @@ body .container .left button {
 	border-radius: 5px;
 	width: 200px;
 }
+
 body .container .right {
 	float: right;
 	width: 950px;
 }
 
 body .container .right .paragraph {
+	font-family: 'Comfortaa-Regular';
 	float: left;
-	margin:20px;
+	margin: 20px;
+	padding: 30px;
 	width: 910px;
-	height:604px;
-	font-size:30px;
-	text-align:center;
-	background-color:#eeeeee;
+	height: 604px;
+	font-size: 30px;
+	text-align: center;
 }
 </style>
 </head>
@@ -130,7 +138,9 @@ body .container .right .paragraph {
 			<button id="seetripbutton">See your Trip</button>
 			<button id="seereviewbutton">See your Review</button>
 		</div>
-		<div class="right"><div class="paragraph">user home index</div></div>
+		<div class="right">
+			<div class="paragraph" id="userinfo">user home index</div>
+		</div>
 
 	</div>
 </body>
@@ -139,10 +149,16 @@ body .container .right .paragraph {
 <!--  get session  -->
 
 	var email;
+	var role;
+	$.ajaxSetup({  
+	    async : false  
+	}); 
 	$.get("/getsession", function(res) {
 		email=res.session.email;
+		role=res.session.role;
 		document.getElementById('yourname').innerHTML = "Welcome "
 				+ res.session.firstname + " " + res.session.lastname;
+		document.getElementById('userinfo').innerHTML = "Welcome back<br>First Name: "+ res.session.firstname +"<br>Last Name: " + res.session.lastname;
 	});
 <!--  make index button link  -->
 	document.getElementById('logo').addEventListener('click', function() {
@@ -166,8 +182,14 @@ body .container .right .paragraph {
 
 
 
-
+if (role=="user"){
 	
+		document.getElementById('createtripbutton').style.display="none";
+		document.getElementById('asguidetag').innerHTML="As User";
+		document.getElementById('seetripbutton').innerHTML="See all Trips";
+		
+		
+}
 	
 
 </script>

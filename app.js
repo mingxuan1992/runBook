@@ -44,6 +44,18 @@ app.post('/guidecreatetrip',trip.guidecreatetrip);
 app.get('/userseetrip', trip.getuserseetrippage);
 app.post('/gettripsbyguideemail',trip.gettripsbyguideemail);
 
+app.get('/tripposter',trip.gettripposterpage);
+app.post('/setthistripid',trip.setthistripid);
+app.post('/gettripsbytripid',trip.gettripsbytripid);
+app.post('/getalltrips',trip.getalltrips);
+app.post('/gettripemailbytripid',trip.gettripemailbytripid);
+
+app.post('/likethistrip',trip.likethistrip);
+app.post('/getalllikesbyuseremail',trip.getalllikesbyuseremail);
+app.post('/getlikesbytripid',trip.getlikesbytripid);
+
+app.get('/guestseetrips',trip.getguestseetripspage);
+
 var session = require('./routes/session');
 app.get('/getsession', session.getsession);
 app.get('/logout', session.logout);
@@ -52,10 +64,11 @@ var image = require('./routes/image');
 app.post('/uploadimage',image.uploadimage);
 app.post('/uploadimagewhensearch',image.uploadimagewhensearch);
 app.post('/getimagebyid',image.getimagebyid);
-app.get('/searchimage',image.getsearchimagepage);
 
 var userhome = require('./routes/userhome');
 app.get('/userhome',userhome.getuserhomepage);
+
+
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log('Express server listening on port ' + app.get('port'));

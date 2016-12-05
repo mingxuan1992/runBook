@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>RunBook</title>
+<title>RunBook-aboutUs</title>
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-
 
 <style>
 @font-face {
@@ -69,7 +68,6 @@ body #header p {
 body .container {
 	width: 1200px;
 	margin: auto;
-	background-color: #eeeeee;
 }
 
 body .container .left {
@@ -125,7 +123,7 @@ body .container #rightcontainer .tripitem {
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 200px;
+	height: 650px;
 }
 
 body .container #rightcontainer .tripitem .paragraph {
@@ -135,7 +133,7 @@ body .container #rightcontainer .tripitem .paragraph {
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 175px;
+	height: 625px;
 	background-color: white;
 	float: left;
 }
@@ -158,37 +156,67 @@ body .container #rightcontainer .tripitem .paragraph .context {
 	font-family: 'Comfortaa-Regular';
 	margin: 5px;
 	width: 336px;
-	height: 125px;
+	height: 575px;
 	font-size: 15px;
 }
 
 body .container #rightcontainer .tripitem .image {
 	margin: 10px 0 0 10px;
-	width: 220px;
+	width: 514px;
 	border: solid;
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 175px;
+	height: 275px;
 	background-color: white;
 	float: left;
 }
 
 body .container #rightcontainer .tripitem .image .imageview {
-	height: 175px;
-	width: 220px;
+	height: 275px;
+	width: 514px;
 }
 
 body .container #rightcontainer .tripitem .map {
 	margin: 10px 0 0 10px;
-	width: 277px;
+	width: 514px;
 	border: solid;
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 175px;
+	height: 336px;
 	background-color: white;
 	float: left;
+}
+
+body .container #likes {
+	
+}
+body .container #likes .likesitem {
+	margin: 10px 22px 0 0px;
+	padding: 0 0 0 20px;
+	width: 880px;
+	border: solid;
+	float: right;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	height: 36px;
+	background-color: white;
+	font-size: 25px;
+}
+
+body .container #likethistrip {
+	margin: 10px 22px 0 10px;
+	width: 905px;
+	border: solid;
+	float: right;
+	border-width: 2px;
+	border-color: darkgreen;
+	border-radius: 5px;
+	height: 36px;
+	background-color: white;
+	font-size: 25px;
 }
 </style>
 </head>
@@ -205,9 +233,7 @@ body .container #rightcontainer .tripitem .map {
 		<div class="left">
 			<p id="asguidetag">As Guide</p>
 			<button id="createtripbutton">Create Trip</button>
-			<button id="seetripbutton">See Your Trip</button>
-		
-			<button id="seeyourlikebutton">See your Like</button>
+			<button id="seetripbutton">See your Trip</button>
 			<button id="seereviewbutton">See your Review</button>
 		</div>
 		<div class="right" id="rightcontainer">
@@ -221,20 +247,29 @@ body .container #rightcontainer .tripitem .map {
 				</div>
 				<div id="map"></div>
 			</div>
+
+
 		</div>
+		<div id="likes"><div class="likesitem" >Haven't be like till now</div></div>
+		<button id="likethistrip">Like this trip? Click here to add
+			to your list!</button>
 
 	</div>
+
+
+
+
 </body>
 
 <script>
-<!--  get session  -->
-
 	var email;
-	var times;
+	var thispagetripid;
 	var role;
-	$.ajaxSetup({  
-	    async : false  
-	}); 	
+	var tripemail;
+	var likescontext="";
+	$.ajaxSetup({
+		async : false
+	});
 	$.ajax({
 		url : '/getsession',
 		async : false,
@@ -242,37 +277,94 @@ body .container #rightcontainer .tripitem .map {
 		dataType : "json",
 		success : function(res) {
 
-		email=res.session.email;
-		role=res.session.role;
-		document.getElementById('yourname').innerHTML = "Welcome "
-				+ res.session.firstname + " " + res.session.lastname;
-		loadtrips("/gettripsbyguideemail",{email:email});
+			email = res.session.email;
+			role = res.session.role;
+			document.getElementById('yourname').innerHTML = "Welcome "
+					+ res.session.firstname + " " + res.session.lastname;
+			thispagetripid = res.trip;
 		}
+
 	});
-	
-	function addtripitemclickevent(itemtripid,tripid){	
 
+	$.post("/gettripemailbytripid", {
+		tripid : thispagetripid
+	}, function(res) {
+		tripemail = res.tripemail;
+	});
 
-		document.getElementById(itemtripid).addEventListener('click', function() {	
-	
-		
-			$.post("/setthistripid",{"thistripid": tripid},function(res) {		
-				if(res.code==200){
-					window.location.assign('/tripposter');
-				}
-			});	
-		});
-	}
+	$
+			.post(
+					"/gettripsbytripid",
+					{
+						tripid : thispagetripid
+					},
+					function(res) {
+
+						trips = res.trips;
+						var innerContext = "";
+						var choosetripid;
+						for (i = 0; i < res.trips.length; i++) {
+
+							choosetripid = "trip";
+							choosetripid = choosetripid + i;
+
+							innerContext = innerContext
+									+ "<div class='tripitem' id=\"";
+			innerContext=innerContext+ choosetripid;
+			innerContext=innerContext+ "\">";
+							innerContext = innerContext
+									+ "<div class='paragraph'>";
+							innerContext = innerContext + "<div class='title'>";
+							innerContext = innerContext
+									+ res.trips[i].trip.title;
+							innerContext = innerContext + "</div>";
+							innerContext = innerContext
+									+ "<div class='context'>";
+							innerContext = innerContext
+									+ res.trips[i].trip.context;
+							innerContext = innerContext + "</div>";
+							innerContext = innerContext + "</div>";
+
+							$.ajax({
+								url : '/getimagebyid',
+								async : false,
+								type : "post",
+								data : {
+									imageid : res.trips[i].trip.imageid
+								},
+								dataType : "json",
+								success : function(res) {
+									imagestring = 'data:image/png;base64,'
+											+ res.image;
+								}
+							});
+							innerContext = innerContext + "<div class='image'>";
+							innerContext = innerContext
+									+ "<img class='imageview' src=";
+							innerContext=innerContext+ imagestring;
+							innerContext=innerContext+ " />";
+							innerContext = innerContext + "</div>";
+							innerContext = innerContext
+									+ "<div class='map' id=\"map";   
+							innerContext=innerContext+ i;
+							innerContext=innerContext+ "\">";
+							innerContext = innerContext + "</div>";
+							innerContext = innerContext + "</div>";
+
+						}
+						document.getElementById('rightcontainer').innerHTML = innerContext;
+
+					});
 
 	function initMap() {
-		for(i=0;i<trips.length;i++){
-			var thismap ="map"+i;
-			var map =new Array(trips.length);
-			var marker =new Array(trips.length);
-			var thislocation=JSON.parse(trips[i].trip.location);
+		for (i = 0; i < trips.length; i++) {
+			var thismap = "map" + i;
+			var map = new Array(trips.length);
+			var marker = new Array(trips.length);
+			var thislocation = JSON.parse(trips[i].trip.location);
 			map[i] = new google.maps.Map(document.getElementById(thismap), {
 				zoom : 11,
-				center :thislocation.geometry.location
+				center : thislocation.geometry.location
 			});
 			marker[i] = new google.maps.Marker({
 				map : map[i],
@@ -280,114 +372,86 @@ body .container #rightcontainer .tripitem .map {
 			});
 		}
 	}
-<!-- get trips-->
 
-
-
-
-<!--  make index button link  -->
 	document.getElementById('logo').addEventListener('click', function() {
 		window.location.assign('/');
 	});
 	document.getElementById('hometag').addEventListener('click', function() {
 		window.location.assign('/');
 	});
+
 	document.getElementById('accounttag').addEventListener('click', function() {
 		window.location.assign('/userhome');
 	});
 	document.getElementById('abouttag').addEventListener('click', function() {
 		window.location.assign('/about');
 	});
-	document.getElementById('createtripbutton').addEventListener('click', function() {
-		window.location.assign('/createtrip');
-	});
-	
-	document.getElementById('seetripbutton').addEventListener('click', function() {
-		loadtrips("/getalltrips",{email:email});
-		initMap();
-	});
-	document.getElementById('seeyourlikebutton').addEventListener('click', function() {
-		loadtrips("/getalllikesbyuseremail",{email:email});
-		initMap();
-	});
 
-
-<!-- change when user  -->
-if (role=="user"){
-	document.getElementById('createtripbutton').style.display="none";
-	document.getElementById('asguidetag').innerHTML="As User";
-	document.getElementById('seetripbutton').innerHTML="See all Trips";
-	loadtrips("/getalltrips",{email:email});
-}
-
-if(role=="guide"){
-	document.getElementById('seeyourlikebutton').style.display="none";
-}
-
-
-function loadtrips(url,queryjson){
-	$.post(url,queryjson,function(res){
-	
-		trips=res.trips;
-		var innerContext="";
-		var choosetripid;
-		for(i=0;i<res.trips.length;i++){	
-			
-			choosetripid="trip";
-			choosetripid=choosetripid+i;
-	
-			innerContext=innerContext+ "<div class='tripitem' id=\"";
-			innerContext=innerContext+ choosetripid;
-			innerContext=innerContext+ "\">";
-			innerContext=innerContext+ "<div class='paragraph'>";
-			innerContext=innerContext+ "<div class='title'>";
-			innerContext=innerContext+ res.trips[i].trip.title ;
-			innerContext=innerContext+ "</div>";
-			innerContext=innerContext+ "<div class='context'>";
-			innerContext=innerContext+ res.trips[i].trip.context ;
-			innerContext=innerContext+ "</div>";
-			innerContext=innerContext+ "</div>";			
-			
-			
-			$.ajax({
-				url : '/getimagebyid',
-				async : false,
-				type : "post",
-				data : {imageid:res.trips[i].trip.imageid},
-				dataType : "json",
-				success : function(res) {
-					imagestring = 'data:image/png;base64,'+ res.image;			
-				}
+	document.getElementById('createtripbutton').addEventListener('click',
+			function() {
+				window.location.assign('/createtrip');
 			});
-			innerContext=innerContext+ "<div class='image'>";
-			innerContext=innerContext+ "<img class='imageview' src="
-			innerContext=innerContext+ imagestring
-			innerContext=innerContext+ " />";
-			innerContext=innerContext+ "</div>";			
-			innerContext=innerContext+ "<div class='map' id=\"map";   
-			innerContext=innerContext+ i
-			innerContext=innerContext+ "\">";			
-			innerContext=innerContext+ "</div>";
-			innerContext=innerContext+ "</div>";
-					
+	document.getElementById('seetripbutton').addEventListener('click',
+			function() {
+				window.location.assign('/userseetrip');
+			});
+
+	if (role == "user") {
+
+		document.getElementById('createtripbutton').style.display = "none";
+		document.getElementById('likes').style.display = "none";
+		document.getElementById('asguidetag').innerHTML = "As User";
+		document.getElementById('seetripbutton').innerHTML = "See all Trips";
+
+	}
+	if (role == "guide") {
+		document.getElementById('likethistrip').style.display = "none";
+		$.post('/getlikesbytripid', {
+			tripid : thispagetripid
+		}, function(res) {
 			
-		}	
-		document.getElementById('rightcontainer').innerHTML=innerContext;
-		for(i=0;i<res.trips.length;i++){			
-			choosetripid="trip";
-			choosetripid=choosetripid+i;
-			addtripitemclickevent(choosetripid,res.trips[i]._id);
-		}
-	});
-}
+			setcontext(res);
+			
 
+		});
 
+	}
+	function setcontext(res){
+	for (i = 0; i < res.likes.length; i++) {
+		
+		likescontext = likescontext + "<div class=\"likesitem\" >likes by ";
+		likescontext = likescontext + res.likes[i].useremail;
+		likescontext = likescontext + "</div>";
+		
+	}
 
+	document.getElementById('likes').innerHTML = likescontext;
+	
+	}
+	document
+			.getElementById('likethistrip')
+			.addEventListener(
+					'click',
+					function() {
+
+						$
+								.post(
+										"/likethistrip",
+										{
+											tripemail : tripemail,
+											useremail : email,
+											tripid : thispagetripid
+										},
+										function(res) {
+											if (res.code == 200) {
+												alert("like this trip success, see it in your own list");
+											}
+										});
+					});
 </script>
-
 <script
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyMXaBqJOWHtGJSATEH_XyV9LBqYV-rYE&callback=initMap"
 	async defer>
-		
-	</script>
+	
+</script>
 </html>

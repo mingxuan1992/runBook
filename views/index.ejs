@@ -68,6 +68,13 @@ body #frontline #frontimage {
 	height: 500px;
 	opacity: 0.8;
 }
+body #frontline #frontimage #guestseetrips {
+	border-style: none;
+	margin: 0px auto;
+	width: 200px;
+	height: 100px;
+	opacity: 0.8;
+}
 </style>
 </head>
 <body>
@@ -80,11 +87,13 @@ body #frontline #frontimage {
 		<div class="clicktag" id="abouttag">About</div>
 		<div class="clicktag" id="hometag">Home</div>
 		<div class="clicktag" id="userhometag">Account</div>
+		<div class="clicktag" id="guestseetag">Guest</div>
 		<p id="yourname"></p>
 	</div>
 	<div id="frontline">
 		<div id="frontimage">
 			<img src="/images/frontimage.jpg">
+			
 		</div>
 	</div>
 
@@ -103,6 +112,8 @@ body #frontline #frontimage {
 					+ res.session.firstname + " " + res.session.lastname;
 			document.getElementById("signintag").style.display = "none";
 			document.getElementById("signuptag").style.display = "none";
+			document.getElementById("guestseetag").style.display = "none";
+
 		}
 	});
 	
@@ -127,9 +138,14 @@ body #frontline #frontimage {
 	document.getElementById('abouttag').addEventListener('click', function() {
 		window.location.assign('/about');
 	});
+	document.getElementById('guestseetag').addEventListener('click', function() {
+		window.location.assign('/guestseetrips');
+	});
 	document.getElementById('userhometag').addEventListener('click',
 			function() {
 				window.location.assign('/userhome');
 			});
+	
+
 </script>
 </html>
