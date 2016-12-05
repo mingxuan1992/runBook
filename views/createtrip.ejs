@@ -13,7 +13,6 @@
 <style>
 body {
 	background: url(../images/bg-header.gif) repeat-x top center;
-
 }
 
 body #header {
@@ -442,7 +441,21 @@ var email;
 var imageway="upload";
 
 var imagechooseid;
+function initMap() {
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom : 8,
+		center : {
+			lat : -34.397,
+			lng : 150.644
+		}
+	});
+	var geocoder = new google.maps.Geocoder();
 
+	document.getElementById('setaddress').addEventListener('click',
+			function() {
+				geocodeAddress(geocoder, map);
+			});
+}
 	$.get("/getsession", function(res) {
 		email=res.session.email;
 		document.getElementById('yourname').innerHTML = "Welcome "
@@ -532,21 +545,7 @@ function addsearchimagesclickbuttonevent(imagechooseid){
 }
 
 <!-- init map -->
-	function initMap() {
-		var map = new google.maps.Map(document.getElementById('map'), {
-			zoom : 8,
-			center : {
-				lat : -34.397,
-				lng : 150.644
-			}
-		});
-		var geocoder = new google.maps.Geocoder();
-
-		document.getElementById('setaddress').addEventListener('click',
-				function() {
-					geocodeAddress(geocoder, map);
-				});
-	}
+	
 	function geocodeAddress(geocoder, resultsMap) {
 		var address = document.getElementById('address').value;
 
