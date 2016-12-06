@@ -5,8 +5,7 @@
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyMXaBqJOWHtGJSATEH_XyV9LBqYV-rYE&callback=initMap"
-	async defer>
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyMXaBqJOWHtGJSATEH_XyV9LBqYV-rYE&callback=initMap">
 		
 	</script>
 
@@ -440,6 +439,7 @@ var mytripimageid_search;
 var email;
 var imageway="upload";
 var imagechooseid;
+
 function initMap() {
 	var map = new google.maps.Map(document.getElementById('map'), {
 		zoom : 8,
@@ -567,36 +567,36 @@ function addsearchimagesclickbuttonevent(imagechooseid){
 										+ status);
 							}
 						});
-	}
+		}
 <!-- submit image here -->
 	document.getElementById('submitimage').addEventListener('click', function() {
 	var data = new FormData();
 	if(document.getElementById("myimageupload").files[0]!=null){
-	data.append('myimage', document.getElementById("myimageupload").files[0]);
+		data.append('myimage', document.getElementById("myimageupload").files[0]);
 	// append other variables to data if you want: data.append('field_name_x', field_value_x);
-	$.ajax({
-		type : 'POST',
-		processData : false, // important
-		contentType : false, // important
-		data : data,
-		url : '/uploadimage',
-		dataType : 'json',
-		success : function(res) {		
-		mytripimageid =res.imageid;
-		haveimage=true;
-		imageway="upload";
-		$.post('/getimagebyid',{imageid:mytripimageid}, function(res) {
-			document.getElementById("ItemPreview").src = 'data:image/png;base64,'
+		$.ajax({
+			type : 'POST',
+			processData : false, // important
+			contentType : false, // important
+			data : data,
+			url : '/uploadimage',
+			dataType : 'json',
+			success : function(res) {		
+				mytripimageid =res.imageid;
+				haveimage=true;
+				imageway="upload";
+				$.post('/getimagebyid',{imageid:mytripimageid}, function(res) {
+					document.getElementById("ItemPreview").src = 'data:image/png;base64,'
 					+ res.image;
 			
-		});
+				});
 		
 		
-		}
+				}
 
+			});
+		}else{alert("please select a image!");}
 	});
-	}else{alert("please select a image!");}
-});
 	<!-- submit trip-->
 	
 	document.getElementById("submittrip").addEventListener('click', function() {

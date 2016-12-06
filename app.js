@@ -25,7 +25,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(expressSession({
-	secret: 'cmpe273_teststring',
+	secret: 'cmpe272_teststring',
 	resave: false,  //don't save session if unmodified
 	saveUninitialized: false,	// don't create session until something stored
 	duration: 30 * 60 * 1000,    
