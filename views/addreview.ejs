@@ -113,17 +113,10 @@ body .container #rightcontainer .tripitem {
 	margin: 20px auto 0;
 	width: 900px;
 	border: solid;
-	height: 200px;
-}
-
-body .container #rightcontainer .tripitem {
-	margin: 20px auto 0;
-	width: 900px;
-	border: solid;
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 650px;
+	height: 450px;
 }
 
 body .container #rightcontainer .tripitem .paragraph {
@@ -133,7 +126,7 @@ body .container #rightcontainer .tripitem .paragraph {
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 625px;
+	height: 225px;
 	background-color: white;
 	float: left;
 }
@@ -162,95 +155,71 @@ body .container #rightcontainer .tripitem .paragraph .context {
 
 body .container #rightcontainer .tripitem .image {
 	margin: 10px 0 0 10px;
-	width: 514px;
+	width: 214px;
 	border: solid;
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 275px;
+	height: 225px;
 	background-color: white;
 	float: left;
 }
 
 body .container #rightcontainer .tripitem .image .imageview {
-	height: 275px;
-	width: 514px;
+	height: 225px;
+	width: 214px;
 }
 
 body .container #rightcontainer .tripitem .map {
 	margin: 10px 0 0 10px;
-	width: 514px;
+	width: 285px;
 	border: solid;
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 336px;
+	height: 225px;
 	background-color: white;
 	float: left;
 }
 
-body .container #likes {
-	
-}
-
-body .container #likes .likesitem {
-	margin: 10px 22px 0 0px;
-	padding: 0 0 0 20px;
-	width: 880px;
+body .container #rightcontainer .tripitem .addreviewplace {
+	margin: 10px 0 0 10px;
+	width: 877px;
 	border: solid;
-	float: right;
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 36px;
+	height: 188px;
 	background-color: white;
-	font-size: 25px;
+	float: left;
 }
 
-body .container #reviews {
-	
-}
-
-body .container #reviews .reviewsitem {
-	background: url(../images/30px.png) repeat-x top center;
-	margin: 10px 22px 0 0px;
-	padding: 0 0 0 20px;
-	width: 880px;
+body .container #rightcontainer .tripitem .addreviewplace #reviewcontext
+	{
+	margin: 10px 0 0 10px;
+	width: 777px;
 	border: solid;
-	float: right;
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 60px;
-
-	font-size: 25px;
-}
-
-body .container #likethistrip {
-	margin: 10px 22px 0 10px;
-	width: 905px;
-	border: solid;
-	float: right;
-	border-width: 2px;
-	border-color: darkgreen;
-	border-radius: 5px;
-	height: 36px;
+	height: 160px;
 	background-color: white;
+	float: left;
 	font-size: 25px;
 }
 
-body .container #reviewthistrip {
-	margin: 10px 22px 0 10px;
-	width: 905px;
+body .container #rightcontainer .tripitem .addreviewplace #submitreview
+	{
+	margin: 10px 0 0 10px;
+	width: 60px;
 	border: solid;
-	float: right;
 	border-width: 2px;
 	border-color: darkgreen;
 	border-radius: 5px;
-	height: 36px;
-	background-color: white;
+	height: 168px;
+	background-color: #dddddd;
+	float: left;
 	font-size: 25px;
-	display: none;
 }
 </style>
 </head>
@@ -280,21 +249,13 @@ body .container #reviewthistrip {
 					<img class="imageview" src="" />
 				</div>
 				<div id="map"></div>
+				<div class="addreviewplace"></div>
 			</div>
 
 
-		</div>
-		<div id="likes">
-			<div class="likesitem">Haven't be liked till now</div>
-		</div>
-		<div id="reviews">
-			<div class="reviewsitem">Haven't be reviewed till now</div>
-		</div>
-		<button id="likethistrip">Like this trip? Click here to add
-			to your list!</button>
 
-		<button id="reviewthistrip">Review this trip? Click here to
-			add your personal review!</button>
+		</div>
+
 
 	</div>
 
@@ -309,8 +270,6 @@ body .container #reviewthistrip {
 	var role;
 	var tripemail;
 	var likescontext = "";
-	var reviewscontext = "";
-	var reviews;
 	$.ajaxSetup({
 		async : false
 	});
@@ -393,6 +352,12 @@ body .container #reviewthistrip {
 							innerContext=innerContext+ i;
 							innerContext=innerContext+ "\">";
 							innerContext = innerContext + "</div>";
+							innerContext = innerContext
+									+ "<div class=\"addreviewplace\">";
+							innerContext = innerContext
+									+ "	<textarea id=\"reviewcontext\"></textarea>";
+							innerContext = innerContext
+									+ " <button id=\"submitreview\">Add</button>";
 							innerContext = innerContext + "</div>";
 
 						}
@@ -439,29 +404,26 @@ body .container #reviewthistrip {
 			function() {
 				window.location.assign('/userseetrip');
 			});
-	document.getElementById('reviewthistrip').addEventListener('click',
+	document.getElementById('submitreview').addEventListener('click',
 			function() {
-				window.location.assign('/addreview');
+				$.post('/postreview', {
+					email : email,
+					tripid : thispagetripid,
+					review : document.getElementById('reviewcontext').value
+				}, function(res) {
+					alert("add review success!");
+				});
 			});
 
 	if (role == "user") {
 
 		document.getElementById('createtripbutton').style.display = "none";
-		document.getElementById('likes').style.display = "none";
-		document.getElementById('reviewthistrip').style.display = "inline";
+
 		document.getElementById('asguidetag').innerHTML = "As User";
 		document.getElementById('seetripbutton').innerHTML = "See all Trips";
 
 	}
 	if (role == "guide") {
-		document.getElementById('likethistrip').style.display = "none";
-		$.post('/getlikesbytripid', {
-			tripid : thispagetripid
-		}, function(res) {
-
-			setcontext(res);
-
-		});
 
 	}
 	function setcontext(res) {
@@ -476,51 +438,6 @@ body .container #reviewthistrip {
 		document.getElementById('likes').innerHTML = likescontext;
 
 	}
-
-	$.post('/getreviewsbytripid', {
-		tripid : thispagetripid
-	}, function(res) {
-		alert(JSON.stringify(res));
-
-		setreviewcontext(res.reviews);
-
-	});
-	function setreviewcontext(res) {
-		for (i = 0; i < res.length; i++) {
-
-			reviewscontext = reviewscontext
-					+ "<div class=\"reviewsitem\" >reviews by ";
-			reviewscontext = reviewscontext + res[i].trip.email;
-			reviewscontext = reviewscontext + ":<br> ";
-			reviewscontext = reviewscontext + res[i].trip.review;
-			reviewscontext = reviewscontext + "</div>";
-
-		}
-
-		document.getElementById('reviews').innerHTML = reviewscontext;
-
-	}
-
-	document
-			.getElementById('likethistrip')
-			.addEventListener(
-					'click',
-					function() {
-
-						$
-								.post(
-										"/likethistrip",
-										{
-											tripemail : tripemail,
-											useremail : email,
-											tripid : thispagetripid
-										},
-										function(res) {
-											if (res.code == 200) {
-												alert("like this trip success, see it in your own list");
-											}
-										});
-					});
 </script>
 <script
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyMXaBqJOWHtGJSATEH_XyV9LBqYV-rYE&callback=initMap"

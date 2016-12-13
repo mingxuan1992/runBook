@@ -83,6 +83,11 @@ app.post('/getimagebyid',image.getimagebyid);
 var userhome = require('./routes/userhome');
 app.get('/userhome',userhome.getuserhomepage);
 
+var review=require('./routes/review');
+app.get('/addreview',review.getaddreviewpage);
+app.post('/postreview',review.postreview);
+app.post('/getreviewsbytripid',review.getreviewsbytripid);
+
 mongo.connect(mongoSessionConnectURL, function(){
 	console.log('Connected to mongo at: ' + mongoSessionConnectURL);
 	http.createServer(app).listen(app.get('port'), function(){
